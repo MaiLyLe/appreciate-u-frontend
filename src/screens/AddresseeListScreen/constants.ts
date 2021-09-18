@@ -1,0 +1,7 @@
+/**
+ * Redux constants for AddresseeListScreen backend requests
+ */
+
+export const GET_RECOMMENDATIONS = 'GET_RECOMMENDATIONS'
+export const GET_RECOMMENDATIONS_SUCCESS = 'GET_RECOMMENDATIONS_SUCCESS'
+export const GET_RECOMMENDATIONS_ERROR = 'GET_RECOMMENDATIONS_ERROR'

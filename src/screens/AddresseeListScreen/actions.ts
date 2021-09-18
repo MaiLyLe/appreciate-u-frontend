@@ -1,0 +1,61 @@
+import { Action } from 'redux'
+import * as types from './constants'
+import { Student, Professor } from '../../globalTypes'
+
+/**
+ * Redux actions for AddresseeListScreen backend requests
+ */
+
+export interface StartFetchingRecommendationsActionI extends Action {
+  type: 'GET_RECOMMENDATIONS'
+  payload: {
+    receiverType: string
+    currentRole: string
+    accessToken: string
+  }
+}
+
+export interface GetRecommendationsSuccessActionI extends Action {
+  type: 'GET_RECOMMENDATIONS_SUCCESS'
+  payload: { recommendationsList: Student[] | Professor[] }
+}
+
+export interface GetRecommendationsErrorActionI extends Action {
+  type: 'GET_RECOMMENDATIONS_ERROR'
+  payload: { errorMessage: string }
+}
+
+export const startFetchingRecommendations = (
+  receiver: string,
+  accessToken: string,
+  currentRole: string,
+): StartFetchingRecommendationsActionI => {
+  return {
+    type: types.GET_RECOMMENDATIONS,
+    payload: {
+      receiverType: receiver,
+      currentRole: currentRole,
+      accessToken: accessToken,
+    },
+  }
+}
+
+export const fetchRecommendationsSuccess = (
+  recommendationsList: Student[] | Professor[],
+): GetRecommendationsSuccessActionI => {
+  return {
+    type: types.GET_RECOMMENDATIONS_SUCCESS,
+    payload: {
+      recommendationsList,
+    },
+  }
+}
+
+export const fetchRecommendationsError = (
+  errorMessage: string,
+): GetRecommendationsErrorActionI => {
+  return {
+    type: types.GET_RECOMMENDATIONS_ERROR,
+    payload: { errorMessage },
+  }
+}
