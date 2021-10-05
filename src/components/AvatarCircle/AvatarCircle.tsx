@@ -6,9 +6,10 @@ type AvatarCircleProps = {
   /** Radius of image cirlce */
   radius: number
   /** Number of dummy image, right now number is even a fixed model property in database*/
-  avatar_num: number
+  avatar_num?: number
   /** Width of coloured border of circle*/
   borderWidth?: number
+  uri?: string
 }
 
 /**
@@ -19,8 +20,9 @@ const AvatarCircle: React.FC<AvatarCircleProps> = ({
   radius,
   avatar_num,
   borderWidth,
+  uri,
 }) => {
-  const renderAvatarImage = (imageIndex: number) => {
+  const renderAvatarImage = (imageIndex?: number) => {
     //function with switch for rendering specific dummy image
     //has to be switch because otherwise not rendered correctly by React
     switch (imageIndex) {
@@ -130,7 +132,19 @@ const AvatarCircle: React.FC<AvatarCircleProps> = ({
       default:
     }
   }
-  return <>{renderAvatarImage(avatar_num)}</>
+  return (
+    <>
+      {!uri ? (
+        renderAvatarImage(avatar_num)
+      ) : (
+        <S.AvatarImage
+          source={{ uri: uri }}
+          radius={radius}
+          borderWidth={borderWidth}
+        ></S.AvatarImage>
+      )}
+    </>
+  )
 }
 
 export default AvatarCircle

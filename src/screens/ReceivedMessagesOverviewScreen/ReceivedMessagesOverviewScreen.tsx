@@ -117,6 +117,9 @@ const ReceivedMessagesOverviewScreen: React.FC<ReceivedMessagesOverviewProps> = 
           keyExtractor={(item: Message, index) => item.id}
           data={messagesList}
           numColumns={1}
+          contentContainerStyle={{
+            justifyContent: 'center',
+          }}
           renderItem={(result: { item: Message; index: number }) => {
             return (
               <S.MessageCard
@@ -149,7 +152,7 @@ const ReceivedMessagesOverviewScreen: React.FC<ReceivedMessagesOverviewProps> = 
                     'dd MMMM yyyy',
                   )}`}</S.Text>
                   <S.MessageText>
-                    {result.item.text.substring(0, 35) + ' ...'}
+                    {result.item.text.substring(0, 30) + ' ...'}
                   </S.MessageText>
                 </S.TextField>
               </S.MessageCard>

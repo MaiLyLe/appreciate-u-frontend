@@ -8,10 +8,23 @@ import { pollMessagesReducer } from '../screens/ReceivedMessagesOverviewScreen/r
 import { getMessageDetailReducer } from '../screens/DetailReceivedMessageScreen/reducer'
 import { pollNumberUnreadMessagesReducer } from '../navigation/TabNavigation/reducer'
 import {
+  fetchInstitutesReducer,
+  fetchFieldsReducer,
+  fetchCoursesReducer,
+  createUserReducer,
+} from '../screens/UserRegistrationScreen/reducer'
+import {
+  fetchPieStatsReducer,
+  fetchBarStatsReducer,
+} from '../screens/StatisticsScreen/reducer'
+import {
   userDataReducer,
   pollTokenVerificationReducer,
 } from '../navigation/reducer'
-import { recommendationsListReducer } from '../screens/AddresseeListScreen/reducer'
+import {
+  recommendationsListReducer,
+  filteredUsersReducer,
+} from '../screens/AddresseeListScreen/reducer'
 
 /**
  * Root reducer that combines all reducers from across the app
@@ -30,10 +43,17 @@ const appReducer = combineReducers({
   userData: userDataReducer,
   verifyTokenPolling: pollTokenVerificationReducer,
   recommendations: recommendationsListReducer,
+  filteredUsers: filteredUsersReducer,
   sendMessage: sendMessageReducer,
   messageList: pollMessagesReducer,
   messageDetail: getMessageDetailReducer,
   numberUnreadMessages: pollNumberUnreadMessagesReducer,
+  pieChartStats: fetchPieStatsReducer,
+  barChartStats: fetchBarStatsReducer,
+  institutes: fetchInstitutesReducer,
+  fields: fetchFieldsReducer,
+  courses: fetchCoursesReducer,
+  createUser: createUserReducer,
 })
 
 const rootReducer = (state: any, action: any) => {

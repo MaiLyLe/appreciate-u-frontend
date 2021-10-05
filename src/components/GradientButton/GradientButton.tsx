@@ -11,6 +11,7 @@ type GradientButtonProps = {
   buttonText: string
   /** Prop to disable or enable button */
   disabled?: boolean
+  colorArray?: string[]
 }
 
 /**
@@ -22,11 +23,14 @@ const GradientButton: React.FC<GradientButtonProps> = ({
   buttonText,
   onPress,
   disabled,
+  colorArray,
 }) => {
   return (
     <S.TouchableOpacity onPress={onPress} disabled={disabled}>
       <LinearGradient
-        colors={['#91cfa2', '#abc1cf', '#e0b4cd']}
+        colors={
+          colorArray?.length ? colorArray : ['#91cfa2', '#abc1cf', '#e0b4cd']
+        }
         style={
           !disabled
             ? { height: '99%', borderRadius: 20 }

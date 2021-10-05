@@ -5,20 +5,20 @@ import { LOCAL_DEV_BASE_BACKEND_URL } from '@env'
 import { SagaIterator } from '@redux-saga/core'
 import * as types from './constants'
 import {
-  StartFetchingRecommendationsActionI,
-  fetchRecommendationsError,
-  fetchRecommendationsSuccess,
-  StartFilteringUserActionI,
-  filterUserSuccess,
-  filterUserError,
+  GetPieChartStatsI,
+  GetBarChartStatsI,
+  getPieChartStatsSuccess,
+  getBarChartStatsSuccess,
+  getPieChartStatsError,
+  getBarChartStatsError,
 } from './actions'
 
 /**
- * Sagas for AddresseeListScreen backend requests
+ * Sagas for StatisticsScreen backend requests
  */
 
 const fetchMethod = (requestURL: string, accessToken: string) => {
-  //fetch function for recommendations saga
+  //fetch function for sagas
   if (accessToken) {
     return fetch(requestURL, {
       credentials: 'include',
@@ -37,57 +37,48 @@ const fetchMethod = (requestURL: string, accessToken: string) => {
           return obj
         })
         .catch((err) => {
+          console.log(err)
           throw err
         }),
     )
   }
 }
 
-export function* fetchRecommendationList(
-  action: StartFetchingRecommendationsActionI,
-) {
+export function* fetchPieChartStats(action: GetPieChartStatsI) {
   //saga for getting list of recommendations of people that logged-in user can message
   try {
-    const receiverType = action.payload.receiverType.toLocaleLowerCase()
-    const currentRole = action.payload.currentRole.toLocaleLowerCase()
-    const accessToken = action.payload.accessToken
-
+    const accessToken = yield call(AsyncStorage.getItem, 'accessToken')
     const resp = yield call(
       fetchMethod,
-      `${LOCAL_DEV_BASE_BACKEND_URL}/user/${receiverType}s/${receiverType}-list-for-${currentRole}/`,
+      `${LOCAL_DEV_BASE_BACKEND_URL}/messagestatistics/messagestatistics/total-numbers-statistics-pie-chart/`,
       accessToken,
     )
     if (resp.status >= 200 && resp.status < 300) {
-      yield put(fetchRecommendationsSuccess(resp.body))
+      yield put(getPieChartStatsSuccess(resp.body))
     } else {
-      yield put(fetchRecommendationsError(resp.body[Object.keys(resp.body)[0]]))
+      yield put(getPieChartStatsError(resp.body[Object.keys(resp.body)[0]]))
       yield call(AsyncStorage.removeItem, 'accessToken')
     }
   } catch (err) {}
 }
 
-export function* filterUsers(action: StartFilteringUserActionI) {
+export function* fetchBarChartStats(action: GetBarChartStatsI) {
   try {
     const accessToken = yield call(AsyncStorage.getItem, 'accessToken')
-
-    const name = action.payload.name
-
     const resp = yield call(
       fetchMethod,
-      name
-        ? `${LOCAL_DEV_BASE_BACKEND_URL}/user/generalusers/?name=${name}`
-        : `${LOCAL_DEV_BASE_BACKEND_URL}/user/generalusers/`,
+      `${LOCAL_DEV_BASE_BACKEND_URL}/messagestatistics/messagestatistics/total-amount-array-bar-chart/`,
       accessToken,
     )
     if (resp.status >= 200 && resp.status < 300) {
-      yield put(filterUserSuccess(resp.body.results))
+      yield put(getBarChartStatsSuccess(resp.body))
     } else {
-      yield put(filterUserError(resp.body[Object.keys(resp.body)[0]]))
+      yield put(getBarChartStatsError(resp.body[Object.keys(resp.body)[0]]))
     }
   } catch (err) {}
 }
 
-export default function* watchGetRecommendations(): SagaIterator {
-  yield takeLatest(types.GET_RECOMMENDATIONS, fetchRecommendationList)
-  yield takeLatest(types.FILTER_USER, filterUsers)
+export default function* watchGetStats(): SagaIterator {
+  yield takeLatest(types.GET_PIE_CHART_STATS, fetchPieChartStats)
+  yield takeLatest(types.GET_BAR_CHART_STATS, fetchBarChartStats)
 }

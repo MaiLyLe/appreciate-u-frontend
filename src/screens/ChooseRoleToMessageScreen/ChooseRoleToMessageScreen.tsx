@@ -42,11 +42,11 @@ const ChooseRoleToMessageScreen: React.FC<ChooseRoleToMessageProps> = ({
     setGoogleSigninOverlayVisible,
   ] = React.useState(false)
 
-  const navigateTo = (receiver: string) => {
+  const navigateTo = (receiver?: string | null) => {
     //navigates to AddresseeListScreen
     navigation.navigate({
       name: 'AddresseeList',
-      params: { receiverType: Receiver[receiver] },
+      params: { receiverType: receiver ? Receiver[receiver] : null },
     })
   }
 
@@ -89,6 +89,14 @@ const ChooseRoleToMessageScreen: React.FC<ChooseRoleToMessageProps> = ({
             ></GradientButton>
           )
         })}
+        <GradientButton
+          isGradientReversed={false}
+          buttonText={`SEARCH FOR A USER`}
+          onPress={() => {
+            navigateTo(null)
+          }}
+          colorArray={['#D63D72', '#abc1cf', '#3DCFD6']}
+        ></GradientButton>
       </ScreenImageBackground>
     </S.Container>
   )

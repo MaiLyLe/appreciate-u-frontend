@@ -3,6 +3,9 @@ import {
   StartFetchingRecommendationsActionI,
   GetRecommendationsSuccessActionI,
   GetRecommendationsErrorActionI,
+  StartFilteringUserActionI,
+  GetFilteredUsersSuccessActionI,
+  GetFilteredUsersErrorActionI,
 } from './actions'
 import * as types from './constants'
 
@@ -36,6 +39,40 @@ export const recommendationsListReducer = (
         recommendationsList: action.payload.recommendationsList,
       }
     case types.GET_RECOMMENDATIONS_ERROR:
+      return {
+        ...initialState,
+        error: action.payload.errorMessage,
+      }
+    default:
+      return initialState
+  }
+}
+
+const initialFilteredUsersState = fromJS({
+  loading: false,
+  filteredUsers: [],
+  error: null,
+})
+export const filteredUsersReducer = (
+  initialState = initialFilteredUsersState,
+  action:
+    | StartFilteringUserActionI
+    | GetFilteredUsersSuccessActionI
+    | GetFilteredUsersErrorActionI,
+) => {
+  switch (action.type) {
+    case types.FILTER_USER:
+      return {
+        ...initialState,
+        loading: true,
+      }
+    case types.FILTER_USER_SUCCESS:
+      return {
+        ...initialState,
+        loading: false,
+        filteredUsers: action.payload.recommendationsList,
+      }
+    case types.FILTER_USER_ERROR:
       return {
         ...initialState,
         error: action.payload.errorMessage,

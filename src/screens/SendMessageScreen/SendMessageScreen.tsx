@@ -94,6 +94,7 @@ const SendMessageScreen: React.FC<SendMessageProps> = ({ route }) => {
       )
     }
   }
+
   return (
     <ScreenImageBackground
       isContentVerticallyCentered={false}
@@ -142,6 +143,7 @@ const SendMessageScreen: React.FC<SendMessageProps> = ({ route }) => {
                   <AvatarCircle
                     avatar_num={route.params.avatar_num}
                     radius={120}
+                    uri={route.params.user_image}
                   ></AvatarCircle>
                 </S.AvatarContainer>
                 <S.MessageInput

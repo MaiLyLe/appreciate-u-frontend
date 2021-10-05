@@ -6,6 +6,7 @@ import { RootState } from '../rootReduxSaga/interfaces'
 import { RootNavigatorParamsList } from './navigatorTypes'
 import TabNavigator from './TabNavigation/TabNavigator'
 import LoginScreen from '../screens/LoginScreen/LoginScreen'
+import RegistrationJourneyStackNavigator from './RegistrationJourneyStackNavigator/RegistrationJourneyStackNavigator'
 import { getUserData, startPollingTokenVerified } from './actions'
 const RootStack = createStackNavigator<RootNavigatorParamsList>()
 
@@ -93,7 +94,10 @@ const RootNavigator: React.FC = () => {
     >
       {!isTokenValid || !accessToken ? (
         <>
-          <Screen name="Login" component={LoginScreen} />
+          <Screen
+            name="LoginRegisterJourneyStack"
+            component={RegistrationJourneyStackNavigator}
+          />
         </>
       ) : (
         <Screen

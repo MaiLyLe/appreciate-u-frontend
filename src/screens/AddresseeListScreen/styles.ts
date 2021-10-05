@@ -4,11 +4,15 @@ import styled from 'styled-components/native'
  * Styled components for AddresseeListScreen
  */
 
-export const Container = styled.View`
+export const Container = styled.View<{
+  isFiltered: boolean
+}>`
   flex: 1;
   align-items: center;
   justify-content: center;
   padding: 0 20px;
+  ${({ isFiltered }) => (isFiltered ? '  top: 30px;' : '')}
+  ${({ isFiltered }) => (isFiltered ? '  padding-bottom: 30px' : '')}
 `
 export const NameText = styled.Text`
   font-size: 16px;
@@ -28,9 +32,15 @@ export const FlatList = styled.FlatList`
   width: 100%;
 `
 
-export const Card = styled.View<{ isFirstTwo: boolean }>`
-  width: 50%;
-  height: 165px;
+export const Card = styled.View<{
+  isFirstTwo: boolean
+  isFiltered: boolean
+  itemsLengthIsOne: boolean
+}>`
+  width: ${({ itemsLengthIsOne }) => (itemsLengthIsOne ? '100%' : '50%')};
+  top: ${({ itemsLengthIsOne }) => (itemsLengthIsOne ? '50px' : '0')};
+
+  height: ${({ isFiltered }) => (isFiltered ? '200px' : '165px')};
   justify-content: center;
   align-items: center;
   ${({ isFirstTwo }) => (isFirstTwo ? 'margin-top: 30px;' : '')}
@@ -49,4 +59,30 @@ export const AvatarButton = styled.TouchableOpacity`
   border-radius: 53px;
   justify-content: center;
   align-items: center;
+`
+
+export const UsernameSearchInput = styled.TextInput`
+  border: 1px solid #9a9c9e;
+  width: 350px;
+  margin-bottom: 25px;
+  margin-top: 10px;
+  height: 50px;
+  padding-left: 20px;
+  border-radius: 20px;
+  background-color: white;
+  padding-left: 50px;
+`
+export const SearchIconContainer = styled.View`
+  position: absolute;
+  top: 22px;
+  left: 15px;
+`
+
+export const SearchInputContainer = styled.View`
+  position: relative;
+  top: 50px;
+`
+export const RoleName = styled.Text`
+  color: #56585c;
+  text-align: center;
 `

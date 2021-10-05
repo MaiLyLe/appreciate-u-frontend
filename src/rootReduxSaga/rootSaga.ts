@@ -6,6 +6,8 @@ import watchGetMessageDetail from '../screens/DetailReceivedMessageScreen/sagas'
 import watchUserInfoTokenVerificationAll from '../navigation/sagas'
 import watchPollNumberUnreadMessages from '../navigation/TabNavigation/sagas'
 import watchPostGoogleContacts from '../overlays/GoogleSigninOverlay/sagas'
+import watchGetStats from '../screens/StatisticsScreen/sagas'
+import watchRegistrationRequests from '../screens/UserRegistrationScreen/sagas'
 import { fork } from 'redux-saga/effects'
 
 /**
@@ -21,4 +23,6 @@ export default function* rootSaga() {
   yield fork(watchPostMessageWatcher)
   yield fork(watchGetMessageDetail)
   yield fork(watchPollNumberUnreadMessages)
+  yield fork(watchGetStats)
+  yield fork(watchRegistrationRequests)
 }

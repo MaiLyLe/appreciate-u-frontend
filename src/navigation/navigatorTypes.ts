@@ -16,6 +16,15 @@ export type MessageJourneyStackParamsList = {
   }
 }
 
+export type RegistrationJourneyStackParamsList = {
+  Login: undefined
+  UserRegistration: undefined
+}
+
+export type StatisticsStackParamsList = {
+  Statistics: undefined
+}
+
 export type ReceivedMessageStackParamsList = {
   ReceivedMessagesList: undefined
   MessageDetail: {
@@ -26,10 +35,11 @@ export type ReceivedMessageStackParamsList = {
 export type TabBarStackParamsList = {
   MessageJourneyStack: NavigatorScreenParams<MessageJourneyStackParamsList>
   ReceivedMessagesOverviewStack: ReceivedMessageStackParamsList
+  StatisticsStack: StatisticsStackParamsList
 }
 
 export type RootNavigatorParamsList = {
-  Login: undefined
+  LoginRegisterJourneyStack: RegistrationJourneyStackParamsList
   Splash: undefined
   TabBar: NavigatorScreenParams<TabBarStackParamsList>
 }

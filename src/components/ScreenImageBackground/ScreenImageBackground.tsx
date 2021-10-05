@@ -9,6 +9,7 @@ type ScreenImageBackground = {
   isContentVerticallyCentered?: boolean
   /** Amount of padding on each side */
   paddingSides?: number
+  isWithoutWhiteCutout?: boolean
 }
 
 /**
@@ -20,18 +21,31 @@ const ScreenImageBackground: React.FC<ScreenImageBackground> = ({
   children,
   isContentVerticallyCentered,
   paddingSides,
+  isWithoutWhiteCutout,
 }) => {
   return (
     <S.SafeAreaView>
-      <S.ImageBackground
-        source={{
-          uri: Asset.fromModule(require('../../files/pastel-bg.jpg')).uri,
-        }}
-        paddingSides={paddingSides}
-        isContentVerticallyCentered={isContentVerticallyCentered}
-      >
-        {children}
-      </S.ImageBackground>
+      {isWithoutWhiteCutout ? (
+        <S.ImageBackground
+          source={{
+            uri: Asset.fromModule(require('../../files/pastel-bg2.png')).uri,
+          }}
+          paddingSides={paddingSides}
+          isContentVerticallyCentered={isContentVerticallyCentered}
+        >
+          {children}
+        </S.ImageBackground>
+      ) : (
+        <S.ImageBackground
+          source={{
+            uri: Asset.fromModule(require('../../files/pastel-bg.jpg')).uri,
+          }}
+          paddingSides={paddingSides}
+          isContentVerticallyCentered={isContentVerticallyCentered}
+        >
+          {children}
+        </S.ImageBackground>
+      )}
     </S.SafeAreaView>
   )
 }

@@ -8,6 +8,8 @@ import * as S from './styles'
 import { TabBarStackParamsList } from '../navigatorTypes'
 import MessageJourneyStackNavigator from '../MessageJourneyStackNavigation/MessageJourneyStackNavigator'
 import ReceivedMessageStackNavigator from '../ReceivedMessageStackNavigator/ReceivedMessageStackNavigator'
+import StatisticsStackNavigator from '../StatisticsStackNavigator/StatisticsStackNavigator'
+
 const TabStack = createBottomTabNavigator<TabBarStackParamsList>()
 
 interface TabContainerProps {
@@ -98,6 +100,12 @@ const TabNavigator: React.FC = () => {
               iconName = 'send'
               break
 
+            case 'StatisticsStack':
+              label = 'Data'
+              showNumberOfMessagesBadge = false
+              iconName = 'bar-chart-o'
+              break
+
             default:
               return null
           }
@@ -126,6 +134,7 @@ const TabNavigator: React.FC = () => {
         name="ReceivedMessagesOverviewStack"
         component={ReceivedMessageStackNavigator}
       />
+      <Screen name="StatisticsStack" component={StatisticsStackNavigator} />
     </Navigator>
   )
 }

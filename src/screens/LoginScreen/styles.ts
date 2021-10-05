@@ -6,7 +6,7 @@ import styled from 'styled-components/native'
 
 export const Container = styled.View`
   flex: 1;
-  background-color: white;
+  background-color: transparent;
   align-items: center;
   justify-content: center;
 `
@@ -27,6 +27,7 @@ export const Input = styled.TextInput`
   height: 50px;
   padding-left: 20px;
   border-radius: 20px;
+  background-color: white;
 `
 
 export const ErrorText = styled.Text`
@@ -47,6 +48,10 @@ export const ShowHidePassword = styled.TouchableOpacity`
   top: 22px;
 `
 export const ButtonContainer = styled.View`
-  margin-top: 20px;
+  margin-top: 50px;
+  width: 300px;
+`
+export const ButtonContainerRegister = styled.View`
+  margin-top: 0px;
   width: 300px;
 `

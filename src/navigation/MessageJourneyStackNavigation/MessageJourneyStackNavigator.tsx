@@ -44,12 +44,12 @@ const MessageJourneyStackNavigator: React.FC = () => {
         name="AddresseeList"
         component={AddresseeListScreen}
         options={({ route }) => ({
-          title: `Choose a ${
-            route.params.receiverType
-              ? route.params.receiverType?.charAt(0)?.toUpperCase() +
+          title: route.params.receiverType
+            ? `Choose a ${
+                route.params.receiverType?.charAt(0)?.toUpperCase() +
                 route.params.receiverType?.slice(1)
-              : ''
-          }`,
+              }`
+            : 'Search for User',
         })}
       />
       <Screen

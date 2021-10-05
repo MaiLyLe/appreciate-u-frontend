@@ -29,17 +29,30 @@ export const MessageList = styled.FlatList`
   width: 90%;
   overflow: scroll;
 `
+//  // border-color: ${({ isSeen }) => (isSeen ? '#ebe8e8' : '#FBF2EF')};
 
 export const MessageCard = styled.TouchableOpacity<{ isSeen: boolean }>`
   flex: 1;
+  margin-left: 3%;
   height: 100px;
+  width: 95%;
   min-height: 100px;
-  margin-bottom: 10px;
-  border-color: ${({ isSeen }) => (isSeen ? '#ebe8e8' : '#FBF2EF')};
+  margin-bottom: 15px;
+  border-color: white;
   background-color: ${({ isSeen }) => (isSeen ? 'white' : '#FBF2EF')};
   border-width: 1px;
   border-radius: 10px;
   flex-direction: row;
+
+  shadow-color: #000;
+  shadow-offset: {
+    width: 0;
+    height: 1;
+  }
+  shadow-opacity: 0.25;
+  shadow-radius: 3.84;
+
+  elevation: 3;
 `
 
 export const AvatarField = styled.View`

@@ -25,6 +25,23 @@ export interface GetRecommendationsErrorActionI extends Action {
   payload: { errorMessage: string }
 }
 
+export interface StartFilteringUserActionI extends Action {
+  type: 'FILTER_USER'
+  payload: {
+    name: string
+  }
+}
+
+export interface GetFilteredUsersSuccessActionI extends Action {
+  type: 'FILTER_USER_SUCCESS'
+  payload: { recommendationsList: Array<Student | Professor> }
+}
+
+export interface GetFilteredUsersErrorActionI extends Action {
+  type: 'FILTER_USER_ERROR'
+  payload: { errorMessage: string }
+}
+
 export const startFetchingRecommendations = (
   receiver: string,
   accessToken: string,
@@ -56,6 +73,31 @@ export const fetchRecommendationsError = (
 ): GetRecommendationsErrorActionI => {
   return {
     type: types.GET_RECOMMENDATIONS_ERROR,
+    payload: { errorMessage },
+  }
+}
+
+export const filterUser = (name: string): StartFilteringUserActionI => {
+  return {
+    type: types.FILTER_USER,
+    payload: { name },
+  }
+}
+
+export const filterUserSuccess = (
+  recommendationsList: Array<Student | Professor>,
+): GetFilteredUsersSuccessActionI => {
+  return {
+    type: types.FILTER_USER_SUCCESS,
+    payload: { recommendationsList: recommendationsList },
+  }
+}
+
+export const filterUserError = (
+  errorMessage: string,
+): GetFilteredUsersErrorActionI => {
+  return {
+    type: types.FILTER_USER_ERROR,
     payload: { errorMessage },
   }
 }
