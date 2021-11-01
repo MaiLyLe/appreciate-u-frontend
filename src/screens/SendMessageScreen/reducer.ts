@@ -25,6 +25,7 @@ export const sendMessageReducer = (
     | SendMessageErrorActionI
     | MountAndResetI,
 ) => {
+  //reducer for posting message to backend
   switch (action.type) {
     case types.MOUNT_AND_RESET:
       return { loading: false, success: false, error: false }

@@ -15,7 +15,6 @@ export interface MountAndResetI extends AppAction {
 
 export interface StartSendMessageActionI extends Action {
   type: 'SEND_MESSAGE_START'
-  accessToken: string
   payload: {
     receiver_id: string
     text: string
@@ -39,13 +38,10 @@ export const mountAndReset = (): MountAndResetI => {
 
 export const startSendMessage = (
   receiverId: string,
-  accessToken: string,
   text: string,
 ): StartSendMessageActionI => {
   return {
     type: types.SEND_MESSAGE_START,
-    accessToken,
-
     payload: {
       receiver_id: receiverId,
       text,

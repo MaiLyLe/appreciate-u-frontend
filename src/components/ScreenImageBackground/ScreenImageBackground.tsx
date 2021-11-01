@@ -9,6 +9,7 @@ type ScreenImageBackground = {
   isContentVerticallyCentered?: boolean
   /** Amount of padding on each side */
   paddingSides?: number
+  /**Bool value for telling component to show the image version with no white cutout in the middle */
   isWithoutWhiteCutout?: boolean
 }
 

@@ -4,6 +4,9 @@ import AsyncStorage from '@react-native-community/async-storage'
 import { Icon } from 'react-native-elements'
 import * as S from './styles'
 
+import { cancelPollingNumberUnreadMessages } from '../../navigation/TabNavigation/actions'
+import { stopLogoutTimer } from '../../navigation/actions'
+
 type LogOutButtonProps = {}
 
 /**
@@ -21,12 +24,24 @@ const LogOutButton: React.FC<LogOutButtonProps> = ({}) => {
     } catch (e) {}
   }
 
+  const deleteToken = async () => {
+    //deletes token on logout
+    try {
+      await AsyncStorage.removeItem('accessToken')
+    } catch (e) {}
+  }
+
   const onLogout = () => {
     //dispatches action for reducer to delete everything in redux store
+    //also cancels polling for number of unread messages
+    //also cancels logout timer
     dispatch({
       type: 'USER_LOGOUT',
     })
     deleteRecentlyViewedMessageIds()
+    deleteToken()
+    dispatch(cancelPollingNumberUnreadMessages())
+    dispatch(stopLogoutTimer())
   }
   return (
     <S.ButtonContainer>

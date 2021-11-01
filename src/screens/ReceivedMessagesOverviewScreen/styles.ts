@@ -28,8 +28,8 @@ export const MessageList = styled.FlatList`
   padding-top: 80px;
   width: 90%;
   overflow: scroll;
+  margin-bottom: 40px;
 `
-//  // border-color: ${({ isSeen }) => (isSeen ? '#ebe8e8' : '#FBF2EF')};
 
 export const MessageCard = styled.TouchableOpacity<{ isSeen: boolean }>`
   flex: 1;

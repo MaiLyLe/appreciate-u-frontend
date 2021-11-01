@@ -72,7 +72,7 @@ const ReceivedMessagesOverviewScreen: React.FC<ReceivedMessagesOverviewProps> = 
   }, [navigation])
 
   React.useEffect(() => {
-    //starts fetching paginaed message list on mounting component
+    //starts fetching paginated message list on mounting component
     dispatch(getPaginatedMessages(countPagination))
   }, [])
 

@@ -11,6 +11,7 @@ type GradientButtonProps = {
   buttonText: string
   /** Prop to disable or enable button */
   disabled?: boolean
+  /**Color Array for gradient */
   colorArray?: string[]
 }
 

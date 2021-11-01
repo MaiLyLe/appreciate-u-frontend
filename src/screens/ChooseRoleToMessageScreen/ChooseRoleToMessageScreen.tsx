@@ -1,5 +1,4 @@
 import React from 'react'
-import { RouteProp } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../rootReduxSaga/interfaces'
@@ -82,7 +81,7 @@ const ChooseRoleToMessageScreen: React.FC<ChooseRoleToMessageProps> = ({
           return (
             <GradientButton
               isGradientReversed={i % 2 !== 0}
-              buttonText={`THANK A ${role}`}
+              buttonText={`RECOMMEND ME A ${role}`}
               onPress={() => {
                 navigateTo(role)
               }}

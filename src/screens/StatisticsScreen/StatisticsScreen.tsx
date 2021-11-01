@@ -2,7 +2,7 @@ import React from 'react'
 import { useFocusEffect } from '@react-navigation/native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import SwitchSelector from 'react-native-switch-selector'
-import { BarChart, PieChart, LineChart } from 'react-native-chart-kit'
+import { BarChart, PieChart } from 'react-native-chart-kit'
 import { RouteProp } from '@react-navigation/native'
 import { format, getMonth } from 'date-fns'
 import { StatisticsStackParamsList } from '../../navigation/navigatorTypes'
@@ -40,11 +40,12 @@ const months = [
   'Dec',
 ]
 
-const getMonthArrayForCase = (
+const getTimeSpanArrayForCase = (
   barChartStats: BarChartStats,
   keyString: string,
   isDays: boolean,
 ) => {
+  //get Array of months name or days names for bar chart labels for special case
   // @ts-ignore
   return barChartStats?.[keyString]?.map((el, index) => {
     return isDays
@@ -60,6 +61,7 @@ const getMessageAmountArrayForCase = (
   isSentMessagesChosen: boolean,
   isLastMonthChosen: boolean,
 ) => {
+  //gets total amount of messages for bar charts depending on what user chose in Switch
   if (!isLastMonthChosen) {
     return !isSentMessagesChosen
       ? barChartStats['messages_received_7_days'].map((el) => el.count)
@@ -71,19 +73,24 @@ const getMessageAmountArrayForCase = (
   }
 }
 
-const getMonthArrayForBarChart = (
+const getTimeSpanArrayForBarChart = (
   barChartStats: BarChartStats,
   isSentMessagesChosen: boolean,
   isLastMonthChosen: boolean,
 ) => {
+  //gets all time span labels for bar chart cases 'sent messages' and 'received messages'
   if (!isLastMonthChosen) {
     return !isSentMessagesChosen
-      ? getMonthArrayForCase(barChartStats, 'messages_received_7_days', true)
-      : getMonthArrayForCase(barChartStats, 'messages_sent_7_days', true)
+      ? getTimeSpanArrayForCase(barChartStats, 'messages_received_7_days', true)
+      : getTimeSpanArrayForCase(barChartStats, 'messages_sent_7_days', true)
   } else {
     return !isSentMessagesChosen
-      ? getMonthArrayForCase(barChartStats, 'messages_received_6_months', false)
-      : getMonthArrayForCase(barChartStats, 'messages_sent_6_months', false)
+      ? getTimeSpanArrayForCase(
+          barChartStats,
+          'messages_received_6_months',
+          false,
+        )
+      : getTimeSpanArrayForCase(barChartStats, 'messages_sent_6_months', false)
   }
 }
 
@@ -92,6 +99,7 @@ const getPieChartNumbers = (
   isSentMessagesChosen: boolean,
   isLastMonthChosen: boolean,
 ) => {
+  //gets pie chart stats
   if (!isLastMonthChosen) {
     return !isSentMessagesChosen
       ? [
@@ -121,33 +129,12 @@ const chartConfig = {
   backgroundColor: 'white',
   color: (opacity = 1) => `rgba(35, 184, 223, ${opacity})`,
   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-
-  strokeWidth: 0.1, // optional, default 3
+  strokeWidth: 0.1,
   barPercentage: 0.6,
-  useShadowColorFromDataset: false, // optional
+  useShadowColorFromDataset: false,
 }
 
-const data = [
-  {
-    name: 'Students',
-    population: 100,
-    color: '#b4dee0',
-    legendFontColor: '#7F7F7F',
-    legendFontSize: 14,
-  },
-  {
-    name: 'Profs',
-    population: 78,
-    color: '#e0c8cf',
-    legendFontColor: '#7F7F7F',
-    legendFontSize: 14,
-  },
-]
-
-const StatisticsScreen: React.FC<StatisticsScreenProps> = ({
-  route,
-  navigation,
-}) => {
+const StatisticsScreen: React.FC<StatisticsScreenProps> = ({ navigation }) => {
   const pieChartStats = useSelector((state: RootState) => {
     return state.pieChartStats?.stats
   })
@@ -186,23 +173,25 @@ const StatisticsScreen: React.FC<StatisticsScreenProps> = ({
   }, [navigation])
 
   React.useEffect(() => {
+    //sets bar chart stats depending on what user chose in switch selector
     if (barChartStats && Object.keys(barChartStats).length) {
       setBarChartLabelsAndNumbers({
-        labels: getMonthArrayForBarChart(
+        labels: getTimeSpanArrayForBarChart(
           barChartStats,
           isSentMessagesChosen,
           isLastMonthChosen,
-        ),
+        ).reverse(),
         numbers: getMessageAmountArrayForCase(
           barChartStats,
           isSentMessagesChosen,
           isLastMonthChosen,
-        ),
+        ).reverse(),
       })
     }
   }, [barChartStats, isSentMessagesChosen, isLastMonthChosen])
 
   React.useEffect(() => {
+    //sets pie chart stats depending on what user chose in switch selector
     if (pieChartStats && Object.keys(pieChartStats).length) {
       setPieChartNumbers(
         getPieChartNumbers(
@@ -336,10 +325,10 @@ const StatisticsScreen: React.FC<StatisticsScreenProps> = ({
           <BarChart
             style={{ backgroundColor: 'white' }}
             data={{
-              labels: barChartLabelsAndNumbers.labels.reverse(),
+              labels: barChartLabelsAndNumbers.labels,
               datasets: [
                 {
-                  data: barChartLabelsAndNumbers.numbers.reverse(),
+                  data: barChartLabelsAndNumbers.numbers,
                 },
               ],
             }}

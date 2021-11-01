@@ -13,6 +13,7 @@ export type MessageJourneyStackParamsList = {
     receiverType?: Receiver
     name?: string
     avatar_num: number
+    user_image?: string
   }
 }
 
@@ -23,6 +24,10 @@ export type RegistrationJourneyStackParamsList = {
 
 export type StatisticsStackParamsList = {
   Statistics: undefined
+}
+
+export type AccountStackParamsList = {
+  Account: undefined
 }
 
 export type ReceivedMessageStackParamsList = {
@@ -36,6 +41,7 @@ export type TabBarStackParamsList = {
   MessageJourneyStack: NavigatorScreenParams<MessageJourneyStackParamsList>
   ReceivedMessagesOverviewStack: ReceivedMessageStackParamsList
   StatisticsStack: StatisticsStackParamsList
+  AccountStack: AccountStackParamsList
 }
 
 export type RootNavigatorParamsList = {

@@ -4,6 +4,10 @@ import { RegistrationJourneyStackParamsList } from '../navigatorTypes'
 import UserRegistrationScreen from '../../screens/UserRegistrationScreen/UserRegistrationScreen'
 import LoginScreen from '../../screens/LoginScreen/LoginScreen'
 
+/**
+ * Stack navigator for Login & Register Journey
+ * consists of Login Screen and UserRegistration screen
+ */
 const RegistrationStack = createStackNavigator<RegistrationJourneyStackParamsList>()
 
 const RegistrationJourneyStackNavigator: React.FC = () => {

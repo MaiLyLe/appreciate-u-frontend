@@ -26,6 +26,7 @@ export const recommendationsListReducer = (
     | GetRecommendationsSuccessActionI
     | GetRecommendationsErrorActionI,
 ) => {
+  //reducer for user recommendations backend calls
   switch (action.type) {
     case types.GET_RECOMMENDATIONS:
       return {
@@ -60,6 +61,7 @@ export const filteredUsersReducer = (
     | GetFilteredUsersSuccessActionI
     | GetFilteredUsersErrorActionI,
 ) => {
+  //reducer for filtered users backend calls
   switch (action.type) {
     case types.FILTER_USER:
       return {

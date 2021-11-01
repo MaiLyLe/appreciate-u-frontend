@@ -1,9 +1,11 @@
 import { call, put, takeLatest, take, cancel } from 'redux-saga/effects'
 import AsyncStorage from '@react-native-community/async-storage'
-
-import axios from 'axios'
 // @ts-ignore
-import { LOCAL_DEV_BASE_BACKEND_URL } from '@env'
+import {
+  LOCAL_DEV_BASE_BACKEND_URL_IOS,
+  LOCAL_DEV_BASE_BACKEND_URL_ANDROID,
+} from '@env'
+import { Platform } from 'react-native'
 import { SagaIterator } from '@redux-saga/core'
 import * as types from './constants'
 import {
@@ -20,18 +22,11 @@ import {
   registerSuccess,
   registerError,
 } from './actions'
-import { RegisterData } from '../../globalTypes'
 
 /**
  * Sagas for UserRegistrationScreen backend requests
  */
 
-function delay(duration: number) {
-  const promise = new Promise((resolve) => {
-    setTimeout(() => resolve(true), duration)
-  })
-  return promise
-}
 const fetchMethod = (
   requestURL: string,
   accessToken?: string,
@@ -98,8 +93,13 @@ export function* fetchInstitutes(action: FetchInstitutesI) {
   try {
     const resp = yield call(
       fetchMethod,
-      `${LOCAL_DEV_BASE_BACKEND_URL}/useradministration/list-institute/`,
+      `${
+        Platform.OS === 'ios'
+          ? LOCAL_DEV_BASE_BACKEND_URL_IOS
+          : LOCAL_DEV_BASE_BACKEND_URL_ANDROID
+      }/useradministration/list-institute/`,
     )
+
     if (resp.status >= 200 && resp.status < 300) {
       yield put(fetchInstitutesSuccess(resp.body.results))
     } else {
@@ -115,10 +115,15 @@ export function* fetchFields(action: FetchFieldsI) {
     const institute_id = action.payload?.institute_id
     const resp = yield call(
       fetchMethod,
-      `${LOCAL_DEV_BASE_BACKEND_URL}/useradministration/list-fields-by-institute${
+      `${
+        Platform.OS === 'ios'
+          ? LOCAL_DEV_BASE_BACKEND_URL_IOS
+          : LOCAL_DEV_BASE_BACKEND_URL_ANDROID
+      }/useradministration/list-fields-by-institute${
         institute_id ? `?instituteid=${institute_id}` : '/'
       }`,
     )
+
     if (resp.status >= 200 && resp.status < 300) {
       yield put(fetchFieldsSuccess(resp.body.results))
     } else {
@@ -132,7 +137,11 @@ export function* fetchCourses(action: FetchCoursesI) {
   try {
     const name = action.payload.name
     const for_prof = action.payload.for_prof
-    const baseUrl = `${LOCAL_DEV_BASE_BACKEND_URL}/useradministration/list-courses`
+    const baseUrl = `${
+      Platform.OS === 'ios'
+        ? LOCAL_DEV_BASE_BACKEND_URL_IOS
+        : LOCAL_DEV_BASE_BACKEND_URL_ANDROID
+    }/useradministration/list-courses`
 
     const nameParam = name ? `?name=${name}` : ''
     const profParam = for_prof ? `?forprof=True` : ''
@@ -155,7 +164,11 @@ export function* register(action: CreateUserAndRoleI) {
   try {
     const data = action.payload.main
     const imageData = action.payload.user_image
-    const url = `${LOCAL_DEV_BASE_BACKEND_URL}/useradministration/register/create_user_with_role_and_courses/`
+    const url = `${
+      Platform.OS === 'ios'
+        ? LOCAL_DEV_BASE_BACKEND_URL_IOS
+        : LOCAL_DEV_BASE_BACKEND_URL_ANDROID
+    }/useradministration/register/create_user_with_role_and_courses/`
     let filename = imageData?.user_image.uri.split('/').pop()
     const formDataComplete = new FormData()
 
@@ -169,17 +182,35 @@ export function* register(action: CreateUserAndRoleI) {
     }
 
     const respMain = yield call(registerUserRequest, url, formDataComplete)
+
     if (respMain.status >= 200 && respMain.status < 300) {
       yield put(registerSuccess())
     } else {
-      yield put(registerError(respMain.body[Object.keys(respMain.body)[0]]))
+      if (respMain.status !== 429) {
+        if (respMain.body[Object.keys(respMain.body)[0]]) {
+          if (Array.isArray(respMain.body[Object.keys(respMain.body)[0]])) {
+            yield put(
+              registerError(
+                `${Object.keys(respMain.body)[0]}: ` +
+                  respMain.body[Object.keys(respMain.body)[0]][0],
+              ),
+            )
+          } else {
+            yield put(
+              registerError(respMain.body[Object.keys(respMain.body)[0]]),
+            )
+          }
+        } else {
+          yield put(registerError('An error occured. Try again.'))
+        }
+      }
     }
   } catch (err) {}
 }
 
 export default function* watchRegistrationRequests(): SagaIterator {
+  //overall saga watcher for UserRegistrationScreen
   yield takeLatest(types.CREATE_USER_AND_ROLE, register)
-
   yield takeLatest(types.FETCH_COURSES, fetchCourses)
   yield takeLatest(types.FETCH_INSTITUTES, fetchInstitutes)
   yield takeLatest(types.FETCH_FIELDS, fetchFields)

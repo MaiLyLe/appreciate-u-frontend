@@ -1,50 +1,10 @@
 import { fromJS } from 'immutable'
 import {
-  StartPollingVerifyTokenI,
-  TokenVerifiedI,
-  TokenExpiredI,
   GetUserSuccessActionI,
   GetUserErrorActionI,
   GetUserInfoI,
 } from './actions'
 import * as types from './constants'
-
-/**
- * Reducer for RootNavigator states
- */
-
-const initialLoginState = fromJS({
-  polling: false,
-  tokenVerified: false,
-  tokenExpired: false,
-})
-
-export const pollTokenVerificationReducer = (
-  initialState = initialLoginState,
-  action: StartPollingVerifyTokenI | TokenVerifiedI | TokenExpiredI,
-) => {
-  switch (action.type) {
-    case types.START_POLLING_VERIFY_TOKEN:
-      return { ...initialState, polling: true }
-    case types.TOKEN_VERIFIED:
-      return {
-        ...initialState,
-        loading: false,
-        tokenVerified: true,
-        tokenExpired: false,
-      }
-    case types.TOKEN_EXPIRED:
-      return {
-        ...initialState,
-        polling: false,
-        tokenVerified: false,
-        tokenExpired: true,
-      }
-
-    default:
-      return initialState
-  }
-}
 
 const initialUserDataState = fromJS({
   loading: false,
@@ -59,6 +19,7 @@ export const userDataReducer = (
   initialState = initialUserDataState,
   action: GetUserInfoI | GetUserSuccessActionI | GetUserErrorActionI,
 ) => {
+  //reducer for fetching general user data from backend
   switch (action.type) {
     case types.GET_USER_INFO:
       return {

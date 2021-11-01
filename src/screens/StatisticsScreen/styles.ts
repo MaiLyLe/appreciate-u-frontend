@@ -1,5 +1,9 @@
 import styled from 'styled-components/native'
 
+/**
+ * Styled components for StatisticsScreen
+ */
+
 export const SwitchContainer = styled.View`
   top: 30px;
   width: 80%;
@@ -8,7 +12,6 @@ export const SwitchContainer = styled.View`
 export const SingleSwitchContainer = styled.View`
   margin-bottom: 10px;
 `
-
 export const PieChartContainer = styled.View`
   top: 5%;
   height: 36%;

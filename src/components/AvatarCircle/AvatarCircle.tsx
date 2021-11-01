@@ -9,6 +9,7 @@ type AvatarCircleProps = {
   avatar_num?: number
   /** Width of coloured border of circle*/
   borderWidth?: number
+  /** Uri for when user has own user_image */
   uri?: string
 }
 

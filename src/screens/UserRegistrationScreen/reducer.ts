@@ -1,9 +1,5 @@
-import { Action } from 'redux'
 import { fromJS } from 'immutable'
-
 import * as types from './constants'
-import { LoginData } from '../../globalTypes'
-
 import {
   FetchInstitutesI,
   FetchInstitutesSuccesssI,
@@ -20,7 +16,7 @@ import {
   ResetCreateUserAndRoleErrorI,
 } from './actions'
 /**
- * Bar Reducer for StatisticsScreen states
+ * Reducers for UserRegistrationScreen
  */
 
 const initialInsitutesState = fromJS({
@@ -34,6 +30,7 @@ export const fetchInstitutesReducer = (
   initialState = initialInsitutesState,
   action: FetchInstitutesI | FetchInstitutesSuccesssI | FetchInstitutesErrorI,
 ) => {
+  //reducer for fetching institutes from backend
   switch (action.type) {
     case types.FETCH_INSTITUTES:
       return {
@@ -70,6 +67,7 @@ export const fetchFieldsReducer = (
   initialState = initialFieldsState,
   action: FetchFieldsI | FetchFieldsSuccesssI | FetchFieldsErrorI,
 ) => {
+  //reducer for fetching fields of studies from backend
   switch (action.type) {
     case types.FETCH_FIELDS:
       return {
@@ -106,6 +104,7 @@ export const fetchCoursesReducer = (
   initialState = initialCoursesState,
   action: FetchCoursesI | FetchCoursesSuccesssI | FetchCoursesErrorI,
 ) => {
+  //reducer for fetching courses from backend
   switch (action.type) {
     case types.FETCH_COURSES:
       return {
@@ -145,6 +144,7 @@ export const createUserReducer = (
     | CreateUserAndRoleErrorI
     | ResetCreateUserAndRoleErrorI,
 ) => {
+  //reducer for creating user
   switch (action.type) {
     case types.CREATE_USER_AND_ROLE:
       return {
@@ -152,14 +152,12 @@ export const createUserReducer = (
         loading: true,
       }
     case types.CREATE_USER_AND_ROLE_SUCCESS:
-      console.log('success')
       return {
         ...initialState,
         loading: false,
         success: true,
       }
     case types.CREATE_USER_AND_ROLE_ERROR:
-      console.log('error')
       return {
         ...initialState,
         loading: false,
@@ -167,7 +165,6 @@ export const createUserReducer = (
         success: false,
       }
     case types.RESET_CREATE_USER_AND_ROLE_ERROR:
-      console.log('reser')
       return {
         ...initialState,
         loading: false,

@@ -4,7 +4,7 @@ import { StatisticsStackParamsList } from '../navigatorTypes'
 import LogOutButton from '../../components/LogOutButton/LogOutButton'
 import StatisticsScreen from '../../screens/StatisticsScreen/StatisticsScreen'
 
-const ReceivedMessageStack = createStackNavigator<StatisticsStackParamsList>()
+const StatisticsStack = createStackNavigator<StatisticsStackParamsList>()
 
 /**
  * Stack Navigator for screens that represent messaging a user starting with
@@ -13,7 +13,7 @@ const ReceivedMessageStack = createStackNavigator<StatisticsStackParamsList>()
  */
 
 const StatisticsStackNavigator: React.FC = () => {
-  const { Navigator, Screen } = ReceivedMessageStack
+  const { Navigator, Screen } = StatisticsStack
 
   return (
     <Navigator

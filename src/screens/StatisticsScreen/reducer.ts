@@ -24,6 +24,7 @@ export const fetchPieStatsReducer = (
   initialState = initialPieChartState,
   action: GetPieChartStatsI | GetPieChartStatsSuccessI | GetPieChartStatsErrorI,
 ) => {
+  //reducer for fetching pie chart stats from backend
   switch (action.type) {
     case types.GET_PIE_CHART_STATS:
       return {
@@ -64,6 +65,7 @@ export const fetchBarStatsReducer = (
   initialState = initialBarChartState,
   action: GetBarChartStatsI | GetBarChartStatsSuccessI | GetBarChartStatsErrorI,
 ) => {
+  //reducer for fetching bar chart stats from backend
   switch (action.type) {
     case types.GET_BAR_CHART_STATS:
       return {

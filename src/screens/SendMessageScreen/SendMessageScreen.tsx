@@ -37,7 +37,6 @@ type SendMessageProps = {
  */
 
 const SendMessageScreen: React.FC<SendMessageProps> = ({ route }) => {
-  const [accessToken, setAccessToken] = React.useState<null | string>(null)
   const dispatch = useDispatch()
   const messageSentSuccess = useSelector((state: RootState) => {
     return state.sendMessage?.success
@@ -74,24 +73,15 @@ const SendMessageScreen: React.FC<SendMessageProps> = ({ route }) => {
 
   const receiverId = route.params?.receiverId ? route.params.receiverId : null
 
-  const getAccessToken = async () => {
-    //gets accessToken from AsyncStorage
-    const accessToken = await AsyncStorage.getItem('accessToken')
-    setAccessToken(accessToken)
-  }
-
   React.useEffect(() => {
     //resets all states on mount and performs getAccessToken
     dispatch(mountAndReset())
-    getAccessToken()
   }, [])
 
   const onSubmit = (values: { message: string }) => {
     //starts sending on submit
-    if (receiverId && accessToken) {
-      dispatch(
-        startSendMessage(receiverId.toString(), accessToken, values.message),
-      )
+    if (receiverId) {
+      dispatch(startSendMessage(receiverId.toString(), values.message))
     }
   }
 

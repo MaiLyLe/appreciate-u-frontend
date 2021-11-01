@@ -120,7 +120,7 @@ const GoogleSigninOverlay: React.FC<GoogleSigninOverlayProps> = ({
         }
       }
     } catch (error) {
-      console.log('LoginScreen.js 19 | error with login', error)
+      console.log('Error Google Signup', error)
     }
   }
   React.useEffect(() => {

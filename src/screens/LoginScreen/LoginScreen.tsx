@@ -3,6 +3,7 @@ import GradientButton from '../../components/GradientButton/GradientButton'
 import { useSelector, useDispatch } from 'react-redux'
 import { Icon } from 'react-native-elements'
 import { StackNavigationProp } from '@react-navigation/stack'
+import Toast from 'react-native-toast-message'
 import { Formik } from 'formik'
 import { RootState } from '../../rootReduxSaga/interfaces'
 import { RouteProp } from '@react-navigation/native'
@@ -36,11 +37,39 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ route, navigation }) => {
   })
   const [hasBackendAuthError, setHasBackendAuthError] = React.useState(false)
   const [isPasswordHidden, setPasswordHidden] = React.useState(true)
-  const error = useSelector((state: RootState) => state.jwtToken?.error)
+  const loginBackendError = useSelector(
+    (state: RootState) => state.jwtToken?.error,
+  )
 
   const loading = useSelector((state: RootState) => {
     return state.jwtToken?.loading
   })
+
+  React.useEffect(() => {
+    //Hides error notification toast on mount
+    Toast.hide()
+  }, [])
+
+  React.useEffect(() => {
+    //shows error notification toast if backend throws error on login
+    if (loginBackendError) {
+      Toast.show({
+        type: 'error',
+        text1: '',
+        visibilityTime: 3000,
+        text2: loginBackendError,
+        topOffset: 700,
+        autoHide: true,
+        bottomOffset: 200,
+        onHide: () => {
+          dispatch(loginResetError())
+        },
+        onPress: () => {
+          dispatch(loginResetError())
+        },
+      })
+    }
+  }, [loginBackendError])
 
   React.useEffect(() => {
     //resets states on mount
@@ -49,12 +78,12 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ route, navigation }) => {
 
   React.useEffect(() => {
     //determines if login failed due to an error after submit
-    if (error) {
+    if (loginBackendError) {
       setHasBackendAuthError(true)
     } else {
       setHasBackendAuthError(false)
     }
-  }, [error])
+  }, [loginBackendError])
 
   React.useEffect(() => {
     //determines if login was successful due to token being there after submit
@@ -91,7 +120,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ route, navigation }) => {
           errors,
           setErrors,
           touched,
-          isSubmitting,
           isValid,
         }) => (
           <S.Container>
@@ -165,8 +193,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ route, navigation }) => {
                 buttonText="Register"
               />
             </S.ButtonContainerRegister>
-
-            {hasBackendAuthError && <S.ErrorText>{error}</S.ErrorText>}
           </S.Container>
         )}
       </Formik>

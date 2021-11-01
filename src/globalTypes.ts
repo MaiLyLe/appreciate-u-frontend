@@ -19,7 +19,7 @@ export type LoginData = {
 
 export type User = {
   email: string
-  password: string
+  password?: string
   avatar_num?: string | number
   user_image?: string
   google_last_updated?: string
@@ -63,7 +63,7 @@ export type Student = {
   field_of_studies?: FieldOfStudies
   institute?: Institute
   entry_semester?: string
-  approx_exit_date?: string
+  approx_exit_semester?: string
   user?: UserWithRole
 }
 
@@ -130,7 +130,7 @@ export type RegisterData = {
 }
 
 export type UploadImageData = {
-  email: string
+  email?: string
   user_image: {
     cancelled: boolean
     height: number
@@ -139,3 +139,13 @@ export type UploadImageData = {
     uri: string
   }
 }
+
+export type ProfileDataStudent = Student & {
+  course_set: Course[]
+}
+
+export type ProfileData = Professor &
+  Student & {
+    taught_courses?: Course[]
+    courses: Course[]
+  }

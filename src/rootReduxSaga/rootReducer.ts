@@ -1,4 +1,5 @@
 import { persistReducer } from 'redux-persist'
+import { Action } from 'redux'
 import AsyncStorage from '@react-native-community/async-storage'
 import { combineReducers } from 'redux'
 import autoMergeLevel1 from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
@@ -14,13 +15,15 @@ import {
   createUserReducer,
 } from '../screens/UserRegistrationScreen/reducer'
 import {
+  fetchProfileDataReducer,
+  updateUserReducer,
+} from '../screens/AccountManagementScreen/reducer'
+
+import {
   fetchPieStatsReducer,
   fetchBarStatsReducer,
 } from '../screens/StatisticsScreen/reducer'
-import {
-  userDataReducer,
-  pollTokenVerificationReducer,
-} from '../navigation/reducer'
+import { userDataReducer } from '../navigation/reducer'
 import {
   recommendationsListReducer,
   filteredUsersReducer,
@@ -38,10 +41,18 @@ const rootPersistConfig = {
   stateReconciler: autoMergeLevel1,
 }
 
+export interface LogoutActionI extends Action {
+  type: 'USER_LOGOUT'
+}
+
+export const logout = (): LogoutActionI => {
+  return {
+    type: 'USER_LOGOUT',
+  }
+}
 const appReducer = combineReducers({
   jwtToken: jwtTokenReducer,
   userData: userDataReducer,
-  verifyTokenPolling: pollTokenVerificationReducer,
   recommendations: recommendationsListReducer,
   filteredUsers: filteredUsersReducer,
   sendMessage: sendMessageReducer,
@@ -54,6 +65,8 @@ const appReducer = combineReducers({
   fields: fetchFieldsReducer,
   courses: fetchCoursesReducer,
   createUser: createUserReducer,
+  profileData: fetchProfileDataReducer,
+  updateUser: updateUserReducer,
 })
 
 const rootReducer = (state: any, action: any) => {

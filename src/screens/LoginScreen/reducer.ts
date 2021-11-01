@@ -29,6 +29,7 @@ export const jwtTokenReducer = (
     | MountLoginActionI
     | LoginResetErrorActionI,
 ) => {
+  //reducer for login
   switch (action.type) {
     case types.MOUNT_LOGIN:
       return {

@@ -39,16 +39,15 @@ export interface LoginResetErrorActionI extends Action {
   type: 'LOGIN_RESET_ERROR'
 }
 
+export const mountLogin = (): MountLoginActionI => {
+  return {
+    type: types.MOUNT_LOGIN,
+  }
+}
 export const startLoginUserAction = (user: LoginData): StartLoginActionI => {
   return {
     type: types.LOGIN_USER,
     payload: user,
-  }
-}
-
-export const mountLogin = (): MountLoginActionI => {
-  return {
-    type: types.MOUNT_LOGIN,
   }
 }
 

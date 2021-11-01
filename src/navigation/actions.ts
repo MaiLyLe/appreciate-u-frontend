@@ -9,22 +9,16 @@ interface AppAction extends Action {
   payload?: any
 }
 
-export interface StartPollingVerifyTokenI extends AppAction {
-  type: 'START_POLLING_VERIFY_TOKEN'
-}
-export interface TokenVerifiedI extends AppAction {
-  type: 'TOKEN_VERIFIED'
+export interface StartLogoutTimerI extends AppAction {
+  type: 'START_LOGOUT_TIMER'
 }
 
-export interface TokenExpiredI extends AppAction {
-  type: 'TOKEN_EXPIRED'
+export interface StopLogoutTimerI extends AppAction {
+  type: 'STOP_LOGOUT_TIMER'
 }
 
 export interface GetUserInfoI extends Action {
   type: 'GET_USER_INFO'
-  payload: {
-    accessToken: string
-  }
 }
 
 export interface GetUserSuccessActionI extends Action {
@@ -37,30 +31,21 @@ export interface GetUserErrorActionI extends Action {
   payload: { errorMessage: string }
 }
 
-export const startPollingTokenVerified = (): StartPollingVerifyTokenI => {
+export const startLogoutTimer = (): StartLogoutTimerI => {
   return {
-    type: types.START_POLLING_VERIFY_TOKEN,
+    type: types.START_LOGOUT_TIMER,
   }
 }
 
-export const tokenVerified = (): TokenVerifiedI => {
+export const stopLogoutTimer = (): StopLogoutTimerI => {
   return {
-    type: types.TOKEN_VERIFIED,
+    type: types.STOP_LOGOUT_TIMER,
   }
 }
 
-export const tokenExpired = (): TokenExpiredI => {
-  return {
-    type: types.TOKEN_EXPIRED,
-  }
-}
-
-export const getUserData = (accessToken: string): GetUserInfoI => {
+export const getUserData = (): GetUserInfoI => {
   return {
     type: types.GET_USER_INFO,
-    payload: {
-      accessToken,
-    },
   }
 }
 

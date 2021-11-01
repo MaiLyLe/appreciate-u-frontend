@@ -7,6 +7,7 @@ import {
   Institute,
   FieldOfStudies,
   Course,
+  ProfileData,
 } from '../globalTypes'
 
 /**
@@ -16,7 +17,6 @@ import {
 export interface RootState {
   readonly jwtToken?: LoginState
   readonly userData?: UserDataState
-  readonly verifyTokenPolling?: VerifyTokenPollingState
   readonly recommendations?: RecommendationsState
   readonly sendMessage?: SendMessageState
   readonly messageList?: MessageListState
@@ -29,6 +29,8 @@ export interface RootState {
   readonly fields?: FieldState
   readonly courses?: CourseState
   readonly createUser?: CreateUserState
+  readonly profileData?: ProfileState
+  readonly updateUser: UpdateUserState
 }
 
 export interface LoginState {
@@ -45,12 +47,6 @@ export interface UserDataState {
   error?: string
   success: boolean
   google_last_updated: string
-}
-
-export interface VerifyTokenPollingState {
-  polling?: boolean
-  tokenVerified?: boolean
-  tokenExpired?: boolean
 }
 
 export interface RecommendationsState {
@@ -130,6 +126,19 @@ export interface CourseState {
 }
 
 export interface CreateUserState {
+  loading: boolean
+  error?: string
+  success: boolean
+}
+
+export interface ProfileState {
+  loading: boolean
+  error: string
+  success: boolean
+  userData?: ProfileData
+}
+
+export interface UpdateUserState {
   loading: boolean
   error?: string
   success: boolean

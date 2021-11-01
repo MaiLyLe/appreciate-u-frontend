@@ -21,6 +21,7 @@ export const getMessageDetailReducer = (
   initialState = initialMessageDetailState,
   action: GetMessageDetailI | GetMessageDetailSuccessI | GetMessageDetailErrorI,
 ) => {
+  //reducer for fetching message detail
   switch (action.type) {
     case types.GET_MESSAGE_DETAIL:
       return { loading: true, success: false, error: false }

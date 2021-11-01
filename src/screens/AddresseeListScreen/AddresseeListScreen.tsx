@@ -2,7 +2,11 @@ import React from 'react'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import { Icon } from 'react-native-elements'
-import { LOCAL_DEV_BASE_BACKEND_URL } from '@env'
+import {
+  LOCAL_DEV_BASE_BACKEND_URL_IOS,
+  LOCAL_DEV_BASE_BACKEND_URL_ANDROID,
+} from '@env'
+import { Platform } from 'react-native'
 import { RootState } from '../../rootReduxSaga/interfaces'
 import { Student, Professor, Receiver, User } from '../../globalTypes'
 import { RouteProp } from '@react-navigation/native'
@@ -71,6 +75,8 @@ const AddresseeListScreen: React.FC<AddresseeListProps> = ({
   }, [role, accessToken])
 
   React.useEffect(() => {
+    //checks whether user wants to search for a user by name
+    //if yes, then filtered list is fetched from backend
     if (searchParam) {
       dispatch(filterUser(searchParam))
     }
@@ -84,7 +90,6 @@ const AddresseeListScreen: React.FC<AddresseeListProps> = ({
     receiver?: Receiver,
   ) => {
     //navigates to SendMessageScreen
-
     navigation.navigate({
       name: 'SendMessage',
       params: {
@@ -200,7 +205,11 @@ const AddresseeListScreen: React.FC<AddresseeListProps> = ({
                         // @ts-ignore
                         parseInt(result.item.user.avatar_num),
                         result?.item?.user?.user_image
-                          ? `${LOCAL_DEV_BASE_BACKEND_URL}${result?.item?.user?.user_image}`
+                          ? `${
+                              Platform.OS === 'ios'
+                                ? LOCAL_DEV_BASE_BACKEND_URL_IOS
+                                : LOCAL_DEV_BASE_BACKEND_URL_ANDROID
+                            }${result?.item?.user?.user_image}`
                           : undefined,
                         route.params?.receiverType,
                       )
@@ -216,7 +225,11 @@ const AddresseeListScreen: React.FC<AddresseeListProps> = ({
                       )}
                       uri={
                         result?.item?.user?.user_image
-                          ? `${LOCAL_DEV_BASE_BACKEND_URL}${result?.item?.user?.user_image}`
+                          ? `${
+                              Platform.OS === 'ios'
+                                ? LOCAL_DEV_BASE_BACKEND_URL_IOS
+                                : LOCAL_DEV_BASE_BACKEND_URL_ANDROID
+                            }${result?.item?.user?.user_image}`
                           : undefined
                       }
                     ></AvatarCircle>

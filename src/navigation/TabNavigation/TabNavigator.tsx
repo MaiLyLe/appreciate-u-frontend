@@ -9,6 +9,7 @@ import { TabBarStackParamsList } from '../navigatorTypes'
 import MessageJourneyStackNavigator from '../MessageJourneyStackNavigation/MessageJourneyStackNavigator'
 import ReceivedMessageStackNavigator from '../ReceivedMessageStackNavigator/ReceivedMessageStackNavigator'
 import StatisticsStackNavigator from '../StatisticsStackNavigator/StatisticsStackNavigator'
+import AccountManagementStackNavigator from '../AccountManagementStackNavigator/AccountManagementStackNavigator'
 
 const TabStack = createBottomTabNavigator<TabBarStackParamsList>()
 
@@ -31,6 +32,8 @@ interface TabContainerProps {
  * The TabNavigator contains the following stacks or stack navigators:
  * MessageJourneyStackNavigator
  * ReceivedMessagesStackNavigator
+ * StatisticsStackNavigator
+ * AccountManagementStackNavigator
  * So it has two tab containers for both.
  */
 
@@ -65,12 +68,18 @@ const TabNavigator: React.FC = () => {
   const numberOfMessagesNotSeen = useSelector((state: RootState) => {
     return state.numberUnreadMessages?.number_unread_messages
   })
+  const loginSuccess = useSelector((state: RootState) => {
+    return state.jwtToken?.accessToken
+  })
   const dispatch = useDispatch()
 
   React.useEffect(() => {
     //starts polling backend via Redux/Saga for number of unread messages
-    dispatch(startPollingNumberUnreadMessages())
-  }, [])
+    //only if login successfull
+    if (loginSuccess) {
+      dispatch(startPollingNumberUnreadMessages())
+    }
+  }, [loginSuccess])
 
   return (
     <Navigator
@@ -90,16 +99,20 @@ const TabNavigator: React.FC = () => {
 
           switch (route.name) {
             case 'MessageJourneyStack':
-              label = 'Send Thanks'
+              label = 'Send'
               showNumberOfMessagesBadge = false
               iconName = 'heart'
               break
             case 'ReceivedMessagesOverviewStack':
-              label = 'Thanks Received'
+              label = 'Received'
               showNumberOfMessagesBadge = true
               iconName = 'send'
               break
-
+            case 'AccountStack':
+              label = 'Account'
+              showNumberOfMessagesBadge = false
+              iconName = 'user-circle'
+              break
             case 'StatisticsStack':
               label = 'Data'
               showNumberOfMessagesBadge = false
@@ -135,6 +148,8 @@ const TabNavigator: React.FC = () => {
         component={ReceivedMessageStackNavigator}
       />
       <Screen name="StatisticsStack" component={StatisticsStackNavigator} />
+
+      <Screen name="AccountStack" component={AccountManagementStackNavigator} />
     </Navigator>
   )
 }
